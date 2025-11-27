@@ -1,0 +1,51 @@
+Repositorio GIT
+https://github.com/JoseM-Git/ejercicio-castores
+
+Video de evaluacion
+https://drive.google.com/file/d/1lO4rkJG00JTUcbuMIcqcKoyj5ZJgj2sl/view?usp=drive_link
+
+
+1. CONOCIMIENTOS SQL
+
+1.1) Describe el funcionamiento general de la sentencia JOIN.
+	R: Unir registros de tablas secundarias a través de llaves foráneas.
+
+1.2) ¿Cuáles son los tipos de JOIN y cuál es el funcionamiento de los mismos?
+	R: Inner, left y right.
+	Inner muestra registros que coincidan en ambas tablas.
+	Left muestra todos los registros de la tabla izquierda aunque no coincidan.
+    Right muestra todos los registros de la tabla derecha aunque no coincidan.
+
+1.3) ¿Cuál el funcionamiento general de los TRIGGER y qué propósito tienen?
+R: Es un disparador que ejecuta script predefinido cuando ocurre un evento en la base de datos
+
+1.4) ¿Qué es y para qué sirve un STORED PROCEDURE?
+R: Son objetos que almacenan script dinámico o estático dentro del motor de base de datos que se ejecuta cuando es llamado.
+
+SEGUN LA INFORMACION DADA
+1.5) Traer todos los productos que tengan una venta.
+    SELECT DISTINCT 
+        p.idProducto,
+        p.nombre
+    FROM productos p
+    INNER JOIN ventas v ON p.IdProducto = v.idProducto
+
+1.6) Traer todos los productos que tengan ventas y la cantidad total de productos vendidos.
+    SELECT 
+        p.IdProducto,
+        p.nombre,
+        p.precio,
+        SUM(v.cantidad) as productos_vendidos
+    FROM productos p
+    INNER JOIN ventas v ON p.IdProducto = v.idProducto
+    GROUP BY p.IdProducto, p.nombre, p.precio
+    
+1.7) Traer todos los productos (independientemente de si tienen ventas o no) y la suma total ($) vendida por producto.
+    SELECT 
+        p.IdProducto,
+        p.nombre,
+        p.precio,
+        COALESCE(SUM(v.cantidad * p.precio), 0) as total_ventas
+    FROM productos p
+    LEFT JOIN ventas v ON p.IdProducto = v.idProducto
+    GROUP BY p.IdProducto, p.nombre, p.precio;
